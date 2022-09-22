@@ -1,24 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import "./Styles/App.css";
+import "./Styles/SignUpLoginForgetPage.css";
+import Home from "./Components/Home";
+import LoginPage from "./Components/LoginPage";
+import SignUpPage from "./Components/SignUpPage";
+import ForgetPassword from "./Components/ForgetPassword";
+import RedirectToHome from "./Routes/RedirectToHome";
+import ProtectedRoute from "./Routes/ProtectedRoute";
+import UserAuthenticationContextProvider from "./Context/UserAuthenticationContext";
+import MyProfile from "./Components/MyProfile";
+import EditProfile from "./Components/EditProfile";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <UserAuthenticationContextProvider>
+        <Routes>
+          <Route
+            index
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/my-profile/edit-profile" element={<EditProfile />} />
+          <Route
+            path="login"
+            element={
+              <RedirectToHome>
+                <LoginPage />
+              </RedirectToHome>
+            }
+          />
+          <Route
+            path="signup"
+            element={
+              <RedirectToHome>
+                <SignUpPage />
+              </RedirectToHome>
+            }
+          />
+          <Route
+            path="forget-password"
+            element={
+              <RedirectToHome>
+                <ForgetPassword />
+              </RedirectToHome>
+            }
+          />
+        </Routes>
+      </UserAuthenticationContextProvider>
+    </>
   );
 }
 
